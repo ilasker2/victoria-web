@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { CoachMessage } from "@/components/CoachMessage";
 import {
   apiBase,
   createSession,
@@ -9,6 +10,11 @@ import {
   type Meta,
   type SessionReply,
 } from "@/lib/victoria-api";
+
+/** Drop accidental raw JSON (e.g. calculations) appended after the prose. */
+function cleanMessage(text: string): string {
+  return text.replace(/\n*\s*\[[\s\S]*"metric"\s*:[\s\S]*\]\s*$/m, "").trimEnd();
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -30,7 +36,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type Msg = { role: "user" | "assistant"; text: string; calcs?: SessionReply["calculations"] };
+type Msg = { role: "user" | "assistant"; text: string };
 type Status = "checking" | "online" | "offline";
 
 function Index() {
@@ -58,10 +64,7 @@ function Index() {
 
   const apply = (r: SessionReply) => {
     setSession(r);
-    setMsgs((m) => [
-      ...m,
-      { role: "assistant", text: r.message, calcs: r.calculations_withheld ? undefined : r.calculations },
-    ]);
+    setMsgs((m) => [...m, { role: "assistant", text: cleanMessage(r.message) }]);
   };
 
   const start = async (useDemo: boolean) => {
@@ -154,18 +157,13 @@ function Index() {
             {msgs.map((m, i) => (
               <div key={i} className={`animate-rise flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
                 <div
-                  className={`max-w-[85%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-[15px] leading-relaxed ${
+                  className={`rounded-2xl px-4 py-3 text-[15px] leading-relaxed ${
                     m.role === "user"
-                      ? "rounded-br-sm bg-primary text-primary-foreground"
-                      : "rounded-bl-sm border border-border bg-card text-card-foreground"
+                      ? "max-w-[85%] whitespace-pre-wrap rounded-br-sm bg-primary text-primary-foreground"
+                      : "w-full max-w-none rounded-bl-sm border border-border bg-card text-card-foreground sm:max-w-[95%]"
                   }`}
                 >
-                  {m.text}
-                  {m.calcs && m.calcs.length > 0 && (
-                    <pre className="mt-3 overflow-x-auto rounded-lg bg-muted p-3 text-xs text-muted-foreground">
-                      {JSON.stringify(m.calcs, null, 2)}
-                    </pre>
-                  )}
+                  {m.role === "assistant" ? <CoachMessage text={m.text} /> : m.text}
                 </div>
               </div>
             ))}
