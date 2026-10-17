@@ -23,12 +23,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Victoria prepares you the way an investor would. Knows how different VCs think, from YC to a16z and from pre-seed to Series A.",
+          "Victoria is an AI VC coach: funding stage and terms insight, financial-statement coaching on your numbers, pitch prep, and investor meeting simulation.",
       },
       { property: "og:title", content: "Victoria — AI VC" },
       {
         property: "og:description",
-        content: "Prepares you the way an investor would. Training and a strategy so you walk into the room confident.",
+        content:
+          "Funding stage and terms insight, learn your financials, check the deck, and practice investor meetings — so you walk into the room confident.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -131,30 +132,39 @@ function Index() {
                 Walk into the room confident.
               </h2>
               <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
-                Knows how different VCs think, from YC to a16z and from pre-seed to Series A. Tell her who you&apos;re
-                pitching and at what stage, and she challenges your forecast the way that investor would, then prepares
-                you so you walk into the room with confidence.
+                Knows how different VCs think, from YC to a16z and from pre-seed to Series A. She helps you see which
+                funding stage fits your numbers and which terms to get clear on before you raise, then coaches you on
+                your financial statements, stress-tests the story against the books, and simulates the investor
+                meeting — so you walk into the room able to explain your own numbers with confidence.
               </p>
               <ul className="mt-5 space-y-2.5 text-sm text-foreground/90">
                 <li className="flex gap-2">
                   <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-                  Context on each investor&apos;s style: what they look for, what they push on, and what they want at your
-                  stage
+                  Funding-stage insight from your books, plus plain-language terms (liquidation preference, pro-rata,
+                  and the rest) — what they mean and what to ask, not what to sign
                 </li>
                 <li className="flex gap-2">
                   <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-                  Top questions for that investor and stage, paired with answers from your numbers
+                  Financial coaching on ARR, growth, margin, and more, using your figures — formula first, then you
+                  interpret
                 </li>
                 <li className="flex gap-2">
                   <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-                  Flags when the numbers don&apos;t back the story — outside benchmarks always show their source
+                  Deck claim checks and investor simulation: flags when the numbers don&apos;t back the story; practices
+                  questions the way that investor would ask them
+                </li>
+                <li className="flex gap-2">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                  Outside benchmarks always show their source — and never invent what isn&apos;t in your files
                 </li>
               </ul>
               <p className="mt-5 text-sm font-semibold text-foreground">
-                Delivers: training and a strategy, so you walk into a room of investors confident.
+                Delivers: stage and terms clarity, financial fluency, and meeting prep — so you walk into a room of
+                investors confident.
               </p>
               <p className="mt-2 text-xs text-muted-foreground">
-                Not investment advice. Victoria never recommends investing, valuing a company, or picking terms.
+                Not investment, legal, or tax advice. Victoria never recommends a valuation, or whether to accept
+                specific terms — have counsel review anything you sign.
               </p>
             </div>
 
