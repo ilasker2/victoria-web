@@ -19,15 +19,16 @@ function cleanMessage(text: string): string {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Victoria — Funding coach for founders" },
+      { title: "Victoria — AI VC | June Analytics" },
       {
         name: "description",
-        content: "Talk with Victoria to find your funding stage, practice pitches and check round math.",
+        content:
+          "Victoria prepares you the way an investor would. Knows how different VCs think, from YC to a16z and from pre-seed to Series A.",
       },
-      { property: "og:title", content: "Victoria — Funding coach for founders" },
+      { property: "og:title", content: "Victoria — AI VC" },
       {
         property: "og:description",
-        content: "Find your funding stage, practice pitches and check round math.",
+        content: "Prepares you the way an investor would. Training and a strategy so you walk into the room confident.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -103,31 +104,74 @@ function Index() {
   };
 
   return (
-    <div className="mx-auto flex h-dvh max-w-3xl flex-col px-4">
-      <header className="flex items-center justify-between gap-4 border-b border-border py-5">
-        <div>
-          <h1 className="font-display text-4xl leading-none text-primary">Victoria</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Funding coach for founders</p>
+    <div className="mx-auto flex h-dvh max-w-3xl flex-col px-4 sm:px-6">
+      <header className="flex items-start justify-between gap-4 border-b border-border py-5">
+        <div className="flex items-start gap-3">
+          <VictoriaAvatar />
+          <div>
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="font-display text-2xl font-bold tracking-tight text-foreground sm:text-[1.75rem]">
+                Victoria
+              </h1>
+              <span className="pill pill-beta">Beta</span>
+            </div>
+            <p className="mt-0.5 text-xs font-medium text-muted-foreground">AI VC</p>
+            <p className="pill pill-tagline mt-2">Prepares you the way an investor would</p>
+          </div>
         </div>
         <StatusPill status={demoMode ? "demo" : status} meta={meta} />
       </header>
 
       <main className="flex-1 overflow-y-auto py-6">
         {!session ? (
-          <div className="flex h-full flex-col items-center justify-center gap-5 text-center">
-            <p className="font-display text-3xl italic text-foreground">What are we raising today?</p>
+          <div className="flex h-full flex-col justify-center gap-6 py-4">
+            <div className="rounded-[12px] border border-border bg-card p-6 sm:p-8">
+              <p className="text-sm font-medium text-muted-foreground">June Analytics · Finance for Founders</p>
+              <h2 className="font-display mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                Walk into the room confident.
+              </h2>
+              <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
+                Knows how different VCs think, from YC to a16z and from pre-seed to Series A. Tell her who you&apos;re
+                pitching and at what stage, and she challenges your forecast the way that investor would, then prepares
+                you so you walk into the room with confidence.
+              </p>
+              <ul className="mt-5 space-y-2.5 text-sm text-foreground/90">
+                <li className="flex gap-2">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                  Context on each investor&apos;s style: what they look for, what they push on, and what they want at your
+                  stage
+                </li>
+                <li className="flex gap-2">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                  Top questions for that investor and stage, paired with answers from your numbers
+                </li>
+                <li className="flex gap-2">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                  Flags when the numbers don&apos;t back the story — outside benchmarks always show their source
+                </li>
+              </ul>
+              <p className="mt-5 text-sm font-semibold text-foreground">
+                Delivers: training and a strategy, so you walk into a room of investors confident.
+              </p>
+              <p className="mt-2 text-xs text-muted-foreground">
+                Not investment advice. Victoria never recommends investing, valuing a company, or picking terms.
+              </p>
+            </div>
+
             {status === "offline" && (
-              <p className="max-w-sm text-sm text-muted-foreground">
-                Can&apos;t reach the coach at <code className="rounded bg-muted px-1">{apiBase}</code>. Start it with{" "}
-                <code className="rounded bg-muted px-1">python3 -m server</code>, or try the demo.
+              <p className="text-sm text-muted-foreground">
+                Can&apos;t reach the coach at <code className="rounded-md bg-secondary px-1.5 py-0.5">{apiBase}</code>.
+                Start it with <code className="rounded-md bg-secondary px-1.5 py-0.5">python3 -m server</code>, or try
+                the demo.
               </p>
             )}
-            <div className="flex flex-wrap justify-center gap-3">
+
+            <div className="flex flex-wrap gap-3">
               <button
                 type="button"
                 disabled={status !== "online" || busy}
                 onClick={() => start(false)}
-                className="rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90 disabled:opacity-40"
+                className="rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:opacity-40"
               >
                 Start session
               </button>
@@ -136,14 +180,14 @@ function Index() {
                   <button
                     type="button"
                     onClick={check}
-                    className="rounded-full border border-border px-6 py-3 text-sm font-medium hover:bg-secondary"
+                    className="rounded-full border border-border px-6 py-3 text-sm font-semibold hover:bg-secondary"
                   >
                     Retry
                   </button>
                   <button
                     type="button"
                     onClick={() => start(true)}
-                    className="rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground hover:opacity-90"
+                    className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground hover:opacity-90"
                   >
                     Try demo
                   </button>
@@ -157,10 +201,10 @@ function Index() {
             {msgs.map((m, i) => (
               <div key={i} className={`animate-rise flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
                 <div
-                  className={`rounded-2xl px-4 py-3 text-[15px] leading-relaxed ${
+                  className={`rounded-[12px] px-4 py-3 text-[15px] leading-relaxed ${
                     m.role === "user"
-                      ? "max-w-[85%] whitespace-pre-wrap rounded-br-sm bg-primary text-primary-foreground"
-                      : "w-full max-w-none rounded-bl-sm border border-border bg-card text-card-foreground sm:max-w-[95%]"
+                      ? "max-w-[85%] whitespace-pre-wrap rounded-br-md bg-primary text-primary-foreground"
+                      : "w-full border border-border bg-card text-card-foreground sm:max-w-[95%]"
                   }`}
                 >
                   {m.role === "assistant" ? <CoachMessage text={m.text} /> : m.text}
@@ -181,7 +225,7 @@ function Index() {
               type="button"
               onClick={() => send("Please give me feedback")}
               disabled={busy}
-              className="mb-3 rounded-full bg-accent px-4 py-1.5 text-xs font-medium text-accent-foreground hover:opacity-90 disabled:opacity-40"
+              className="mb-3 rounded-full bg-accent-soft px-4 py-1.5 text-xs font-bold text-accent-soft-foreground hover:opacity-90 disabled:opacity-40"
             >
               Ask for feedback
             </button>
@@ -202,7 +246,7 @@ function Index() {
             <button
               type="submit"
               disabled={busy || !text.trim()}
-              className="rounded-full bg-primary px-5 py-3 text-sm font-medium text-primary-foreground disabled:opacity-40"
+              className="rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground disabled:opacity-40"
             >
               Send
             </button>
@@ -210,12 +254,23 @@ function Index() {
           <button
             type="button"
             onClick={() => start(demoMode)}
-            className="mt-2 text-xs text-muted-foreground underline-offset-2 hover:underline"
+            className="mt-2 text-xs font-medium text-muted-foreground underline-offset-2 hover:underline"
           >
             New session
           </button>
         </footer>
       )}
+    </div>
+  );
+}
+
+function VictoriaAvatar() {
+  return (
+    <div
+      className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent-soft text-sm font-bold text-accent-soft-foreground ring-1 ring-border"
+      aria-hidden
+    >
+      V
     </div>
   );
 }
@@ -231,9 +286,10 @@ function StatusPill({ status, meta }: { status: Status | "demo"; meta: Meta | nu
         : status === "checking"
           ? "Connecting…"
           : "Coach offline";
-  const dot = status === "online" ? "bg-success" : status === "offline" ? "bg-destructive" : "bg-accent";
+  const dot =
+    status === "online" ? "bg-success" : status === "offline" ? "bg-destructive" : "bg-accent";
   return (
-    <span className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs text-muted-foreground">
+    <span className="flex shrink-0 items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground">
       <span className={`h-2 w-2 rounded-full ${dot}`} />
       {label}
     </span>
