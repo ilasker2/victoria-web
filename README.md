@@ -1,63 +1,60 @@
 # victoria-web
 
-Product UI for **Victoria** (Tidewell founder coaching). This repo is the frontend only.
+Product UI for **Victoria** (Tidewell founder coaching). Frontend only.
 
-| Layer | Lives in | Tool |
+| Layer | Repo | Tool |
 |---|---|---|
-| Chat UI | This repo (`victoria-web`) | Lovable → GitHub |
-| Coaching API, finance math, Claude, case data | Sibling repo `victoria` | Cursor |
+| Chat UI | This repo | Lovable ↔ GitHub (two-way on `main`) |
+| Coaching API | Sibling `victoria` (Cursor) | `python3 -m server` on `:8787` |
 
-Do **not** connect Lovable GitHub sync to the `victoria` backend repo — it would overwrite `server/`, `knowledge/`, and `workspace/`.
+## Lovable + GitHub (correct direction)
 
-## Connect to Lovable
+Lovable **cannot** attach an existing GitHub repository. Connecting GitHub **creates a new private repo** from the Lovable project; then the two stay in sync both ways.
 
-1. Create an empty GitHub repository named `victoria-web` (or push this folder to one you own).
-2. In [Lovable](https://lovable.dev), create or open a project and **connect that GitHub repo** (not the backend).
-3. Continue designing in Lovable; pull locally to run against the real API (below).
-4. Keep API calls in `src/api.ts` — do not move coaching logic into Lovable edge functions.
+Recommended path:
 
-Lovable’s hosted preview **cannot** reach `http://127.0.0.1:8787` on your machine. Use local `npm run dev` for real sessions, or later a tunnel URL in `VITE_API_URL`.
+1. Build / iterate the UI **in Lovable**.
+2. **Project settings → Git → Connect GitHub** → new repo created.
+3. Clone that repo in Cursor next to the `victoria` backend.
+4. Local edits: push to `main` → appears in Lovable. Lovable edits → appear on GitHub / pull locally.
 
-## Local loop (real coaching)
+If you already have scaffold files (Vite chat + `src/api.ts`):
 
-**Terminal A — backend (Cursor / `victoria` repo):**
+- Download/ZIP and attach in Lovable so it rebuilds into its stack (often **TanStack Start**), **then** Connect GitHub; or
+- Connect GitHub first, copy files into the new clone, push — Lovable picks up the push (may need stack adjustments).
+
+**Never** connect Lovable to the Cursor `victoria` backend repo.
+
+## Wire to the Cursor backend
+
+Full pasteable contract: in the backend repo see [`LOVABLE_HANDOFF.md`](../victoria/LOVABLE_HANDOFF.md) (or copy from the `victoria` folder on disk).
+
+| Call | Request |
+|---|---|
+| Meta | `GET http://127.0.0.1:8787/api/meta` |
+| Start | `POST http://127.0.0.1:8787/api/sessions` body `{}` |
+| Message | `POST http://127.0.0.1:8787/api/sessions/{id}/messages` body `{ "text": "..." }` |
+
+Set `VITE_API_URL=http://127.0.0.1:8787` (or proxy `/api` → that host). Lovable **cloud preview cannot** reach localhost — test real sessions with the local loop below.
+
+## Local loop
 
 ```bash
-cd ../victoria   # or your path to the backend
+# Terminal A — Cursor backend
+cd /path/to/victoria
 python3 -m server
 # → http://127.0.0.1:8787
-```
 
-**Terminal B — frontend (this repo):**
-
-```bash
-cd ../victoria-web
-cp .env.example .env   # optional; proxy works without it
+# Terminal B — this frontend (Lovable-synced clone)
+cd /path/to/victoria-web
 npm install
 npm run dev
-# → http://127.0.0.1:5173
+# → usually http://127.0.0.1:5173
 ```
-
-With `VITE_API_URL` unset, Vite proxies `/api/*` to `http://127.0.0.1:8787`. Or set:
-
-```bash
-VITE_API_URL=http://127.0.0.1:8787
-```
-
-## API used by this UI
-
-| Method | Path | Body | Purpose |
-|---|---|---|---|
-| `GET` | `/api/meta` | — | Provider, model, investor profiles |
-| `POST` | `/api/sessions` | `{}` | Start session; returns opening + `session_id` |
-| `POST` | `/api/sessions/{id}/messages` | `{ "text": "..." }` | Send a founder message |
-| `GET` | `/api/sessions/{id}` | — | Optional: load session history |
-
-Contract details live in the backend README (`victoria`).
 
 ## Success check
 
-1. Start session → task menu.
-2. Send `1` → funding-stage pack (with public-resource citations).
-3. Follow-ups use Claude when `ANTHROPIC_API_KEY` is set in the backend `.env`.
-4. Backend edits: restart `python3 -m server` only; no frontend rebuild required for logic changes.
+1. Start session → task menu from the API.
+2. Send `1` → funding-stage pack (backend citations).
+3. Follow-ups use Claude when the backend `.env` has `ANTHROPIC_API_KEY`.
+4. Backend-only changes: restart `python3 -m server`; no Lovable redeploy for logic.
