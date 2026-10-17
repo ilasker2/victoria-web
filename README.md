@@ -37,6 +37,15 @@ Full pasteable contract: in the backend repo see [`LOVABLE_HANDOFF.md`](../victo
 
 Set `VITE_API_URL=http://127.0.0.1:8787` (or proxy `/api` → that host). Lovable **cloud preview cannot** reach localhost — test real sessions with the local loop below.
 
+## Layout (Lovable / TanStack)
+
+| Path | Role |
+|---|---|
+| `src/lib/victoria-api.ts` | Backend client + offline demo |
+| `src/routes/index.tsx` | Chat UI (file route `/`) |
+| `src/routes/__root.tsx` | Root layout |
+| `src/styles.css` | Tailwind theme tokens |
+
 ## Local loop
 
 ```bash
@@ -47,9 +56,10 @@ python3 -m server
 
 # Terminal B — this frontend (Lovable-synced clone)
 cd /path/to/victoria-web
+cp .env.example .env   # VITE_API_URL=http://127.0.0.1:8787
 npm install
 npm run dev
-# → usually http://127.0.0.1:5173
+# → http://127.0.0.1:5173
 ```
 
 ## Success check
