@@ -225,7 +225,9 @@ function Index() {
 function StatusPill({ status, meta }: { status: Status | "demo"; meta: Meta | null }) {
   const label =
     status === "online"
-      ? `${meta?.provider} · ${meta?.model}`
+      ? meta?.model
+        ? `${meta.provider} · ${meta.model}`
+        : meta?.provider || "online"
       : status === "demo"
         ? "Demo mode"
         : status === "checking"
