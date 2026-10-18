@@ -7,23 +7,6 @@ Product UI for **Victoria** (Tidewell founder coaching). Frontend only.
 | Chat UI | This repo | Lovable ↔ GitHub (two-way on `main`) |
 | Coaching API | Sibling `victoria` (Cursor) | `python3 -m server` on `:8787` |
 
-## Lovable + GitHub (correct direction)
-
-Lovable **cannot** attach an existing GitHub repository. Connecting GitHub **creates a new private repo** from the Lovable project; then the two stay in sync both ways.
-
-Recommended path:
-
-1. Build / iterate the UI **in Lovable**.
-2. **Project settings → Git → Connect GitHub** → new repo created.
-3. Clone that repo in Cursor next to the `victoria` backend.
-4. Local edits: push to `main` → appears in Lovable. Lovable edits → appear on GitHub / pull locally.
-
-If you already have scaffold files (Vite chat + `src/api.ts`):
-
-- Download/ZIP and attach in Lovable so it rebuilds into its stack (often **TanStack Start**), **then** Connect GitHub; or
-- Connect GitHub first, copy files into the new clone, push — Lovable picks up the push (may need stack adjustments).
-
-**Never** connect Lovable to the Cursor `victoria` backend repo.
 
 ## Wire to the Cursor backend
 
